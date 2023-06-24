@@ -11,7 +11,8 @@
           </ul>
         </div>
         <div class="sub__button">
-          <DragUpload></DragUpload>
+          <DragUpload @drop.prevent="drop" @change="selectedFile"></DragUpload>
+          <span class="file-info">Файл: {{ dropzoneFile.name }}</span>
         </div>
       </div>
     </div>
@@ -25,20 +26,27 @@
 import LineGraph from '@/components/LineGraph.vue'
 import DragUpload from '@/components/DragUpload.vue';
 import VideoPlayer from '@/components/VideoPlayer.vue'
+import { ref } from 'vue';
 
 export default{
   components:{
     LineGraph, DragUpload, VideoPlayer
   },
-  data: () => {
-    return {
-      items: [
+  setup() {
+    let items = [
         {message: 'Трактор', count: '0'},
         {message: 'Грузовая машина', count: '1'},
         {message: 'Кран', count: '0'},
         {message: 'Экскаватор', count: '2'},
-      ]
+    ];
+    let dropzoneFile = ref('0');
+    const drop = (e) => {
+        dropzoneFile.value = e.dataTransfer.files[0];
     }
+    const selectedFile = () => {
+      dropzoneFile.value = document.querySelector('.dropzone__input').files[0];
+    }
+    return {items, drop, dropzoneFile, selectedFile};
   }
 }
 
@@ -67,7 +75,9 @@ export default{
   height: 56.25%;
 }
 .main__sub {
+  display: flex;
   flex: 0.5;
+  flex-direction: column;
 }
 .sub__count {
   background-color: rgb(233, 233, 233);
@@ -75,18 +85,28 @@ export default{
   border-top-right-radius: 10px;
 }
 .sub__button {
-  border: 1px solid black;
   font-size: 25px;
-  margin: 0 0 0 1%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  
 }
 .count__list{
   list-style-type: none;
   text-align: start;
   margin-top: 0px;
+  padding: 10% 0 10% 3%;
 }
 .list__item{
   font-size: 25px;
   color: black;
 }
 
+@media screen and (max-width: 900px) {
+  .list__item{
+    font-size: 15px;
+    color: black;
+  }
+}
 </style>
