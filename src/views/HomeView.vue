@@ -90,7 +90,8 @@ export default{
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  
+  margin-left: 5px;
+  margin-right: 0;
 }
 .count__list{
   list-style-type: none;
@@ -102,7 +103,9 @@ export default{
   font-size: 25px;
   color: black;
 }
-
+.file-info{
+  display: flex;
+}
 @media screen and (max-width: 900px) {
   .list__item{
     font-size: 15px;
