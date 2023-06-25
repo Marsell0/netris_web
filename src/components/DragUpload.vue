@@ -6,43 +6,52 @@
     <span>Drag&Drop</span>
     <span>или</span>
     <label class="dropzone__label" for="dropzoneFiles">Выбрать файл</label>
-    <input class="dropzone__input" type="file" id="dropzoneFiles"  />
+    <input class="dropzone__input" name="video" type="file" id="dropzoneFiles" ref="file" v-on:change="handleFileUpload()" accept="video/*" />
   </div>
+  <!-- <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="video" accept="video/*">
+        <input type="submit" value="Upload">
+    </form> -->
 </template>
 
 <script>
-import { ref } from 'vue';
-// import axios from 'axios';
+import { ref, getCurrentInstance } from 'vue';
+import axios from 'axios';
 
 export default{
   setup() {
     const active = ref(false)
-
-    let file = ''
-    // let formData = new FormData();
+    let path = ref('https://42ac-176-28-64-201.ngrok-free.app')
+    let file = ref('')
+    let formData = new FormData();
     
-    // const uploadFile = () =>{
-    //   axios.post('', formData, {
-    //               headers: {
-    //                 'Content-Type': 'multipart/form-data'
-    //               }
-    //             }
-    //   )
-    // }
+    let instance = getCurrentInstance()
+    // instance.refs.file.value = null
 
-    // const handleFileUpload = () => {
-    //   this.file = this.$refs.file.files[0]
-    //   formData.append('file', this.file);
-    //   uploadFile()
-    // }
+    const uploadFile = async () =>{
+      await axios.post(`${path.value}/upload`, formData, {
+                  headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Access-Control-Allow-Origin' : '*',
+                    'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                  }
+                }
+      )
+      console.log('suc')
+    }
 
+    const handleFileUpload = async () => {
+      file.value = instance.refs.file.files[0]
+      formData.append('video', file.value);
+      await uploadFile()
+    }
 
     const toggleActive =  () => {
       active.value = !active.value; 
     }
 
     
-    return {active, toggleActive, file};
+    return {active, toggleActive, file, handleFileUpload, uploadFile};
   }
 }
 
