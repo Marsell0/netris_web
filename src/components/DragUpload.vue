@@ -18,7 +18,7 @@ export default{
   setup() {
     const active = ref(false)
 
-    // let file = ''
+    let file = ''
     // let formData = new FormData();
     
     // const uploadFile = () =>{
@@ -42,7 +42,7 @@ export default{
     }
 
     
-    return {active, toggleActive};
+    return {active, toggleActive, file};
   }
 }
 
