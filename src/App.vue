@@ -10,6 +10,9 @@
   text-align: center;
   color: #2c3e50;
 }
+body{
+  background-color: #1E1E2E;
+}
 nav {
   padding: 30px;
 }

@@ -12,7 +12,6 @@
         </div>
         <div class="sub__button">
           <DragUpload @drop.prevent="drop" @change="selectedFile"></DragUpload>
-          <span class="file-info">Файл: {{ dropzoneFile.name }}</span>
         </div>
       </div>
     </div>
@@ -61,8 +60,8 @@ export default{
   flex-direction: column;
 }
 .main {
-  background-color: rgb(199, 198, 198);
-  border-radius: 25px;
+  background-color: #27293D;
+  border-radius: 5px;
   display: flex;
   flex-direction: row;
   flex: 1;
@@ -80,7 +79,7 @@ export default{
   flex-direction: column;
 }
 .sub__count {
-  background-color: rgb(233, 233, 233);
+  background-color: #27293D;
   margin: 0 0 1% 1%;
   border-top-right-radius: 10px;
 }
@@ -98,13 +97,17 @@ export default{
   text-align: start;
   margin-top: 0px;
   padding: 10% 0 10% 3%;
+  border: solid #3A9B6C;
+  border-top-right-radius: 10px;
+
 }
 .list__item{
   font-size: 25px;
-  color: black;
+  color: #F1FFE0;
 }
 .file-info{
   display: flex;
+  color: #F1FFE0;
 }
 @media screen and (max-width: 900px) {
   .list__item{
