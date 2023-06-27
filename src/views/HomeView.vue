@@ -2,7 +2,7 @@
   <div class="_container">
     <div class="main">
       <div class="main__video">
-        <VideoPlayer></VideoPlayer>
+        <img class="main__video" :src="videoF"/>
       </div>
       <div class="main__sub">
         <div class="sub__count">
@@ -19,6 +19,7 @@
       <LineGraph></LineGraph>
     </div>
   </div>
+  <p  class="sueta" style="{display: hidden;}">h</p>
 </template>
 
 <script>
@@ -26,8 +27,12 @@ import LineGraph from '@/components/LineGraph.vue'
 import DragUpload from '@/components/DragUpload.vue';
 import VideoPlayer from '@/components/VideoPlayer.vue'
 import { ref } from 'vue';
+import axios from 'axios';
 
 export default{
+  updated(){
+    console.log('updated')
+  },
   components:{
     LineGraph, DragUpload, VideoPlayer
   },
@@ -39,13 +44,25 @@ export default{
         {message: 'Экскаватор', count: '2'},
     ];
     let dropzoneFile = ref('0');
+    let filename = ref('')
+    let fileActive = ref(false)
+    let path = ref('http://127.0.0.1:5000/video_feed?filename=')
+    let res = ref('')
+    let videoActive = ref(false)
+    let videoF = localStorage.getItem('video')
+
     const drop = (e) => {
         dropzoneFile.value = e.dataTransfer.files[0];
     }
-    const selectedFile = () => {
+    const selectedFile = (event) => {
       dropzoneFile.value = document.querySelector('.dropzone__input').files[0];
-    }
-    return {items, drop, dropzoneFile, selectedFile};
+      filename.value = document.querySelector('.sueta').textContent
+      console.log('selectedFile ' + document.querySelector('.sueta').textContent)
+      console.log('res ' + res)
+      videoActive.value = true
+      localStorage.setItem('video', path.value + localStorage.getItem('name'))
+    } 
+    return {items, drop, dropzoneFile, selectedFile, filename, fileActive,path,videoF};
   }
 }
 

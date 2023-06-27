@@ -14,22 +14,24 @@
     </form> -->
 </template>
 
-<script>
+<script setup>
 import { ref, getCurrentInstance } from 'vue';
 import axios from 'axios';
 
-export default{
-  setup() {
     const active = ref(false)
-    let path = ref('https://42ac-176-28-64-201.ngrok-free.app')
+    let path = ref('http://127.0.0.1:5000/')
+    let path_up = ref('http://127.0.0.1:5000/video_feed?filename=')
     let file = ref('')
     let formData = new FormData();
+    let res = ref('')
+    let f = ref('')
     
     let instance = getCurrentInstance()
     // instance.refs.file.value = null
 
     const uploadFile = async () =>{
-      await axios.post(`${path.value}/upload`, formData, {
+      console.log('start')
+      res = await axios.post(`${path.value}/upload`, formData, {
                   headers: {
                     'Content-Type': 'multipart/form-data',
                     'Access-Control-Allow-Origin' : '*',
@@ -38,11 +40,24 @@ export default{
                 }
       )
       console.log('suc')
+      console.log(res.data)
+      f.value = res.data
+      console.log(f.value)
+      document.querySelector('.sueta').text = f.value
+      console.log('sueta ' + document.querySelector('.sueta').text)
+      let div = document.createElement('div')
+      document.body.append(div)
+      localStorage.setItem('name', f.value)
+      console.log('проверка нейм' + localStorage.getItem('name'))
+      localStorage.setItem('video', path_up.value + localStorage.getItem('name'))
+      console.log('проверка видео' + localStorage.getItem('video'))
+      location.reload()
     }
 
     const handleFileUpload = async () => {
       file.value = instance.refs.file.files[0]
       formData.append('video', file.value);
+      console.log('handle ' + file.value)
       await uploadFile()
     }
 
@@ -50,10 +65,6 @@ export default{
       active.value = !active.value; 
     }
 
-    
-    return {active, toggleActive, file, handleFileUpload, uploadFile};
-  }
-}
 
 </script>
 

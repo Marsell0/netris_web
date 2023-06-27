@@ -1,8 +1,9 @@
 <template>
   <video controls :style="{width: '100%'}">
-    <!-- <source type="video/mp4" /> -->
+    <source class="sors" type="video/mp4" />
   </video>
 </template>
+
 <script>
 
 
